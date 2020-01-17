@@ -156,7 +156,7 @@ unifract_dist <- unifracs[, , "d_0.5"]
 all_dist_matrix <- as.dist(unifract_dist)
 
 # Apply a hierarchical cluster analysis on the distance matrix based on the Ward's method
-all_fit <- hclust(all_dist_matrix, method = "ward.D2")
+all_fit <- hclust(all_dist_matrix, method = "ward")
 
 # Generates a tree from the hierarchically generated object
 tree <- as.phylo(all_fit)
@@ -182,7 +182,7 @@ pdf(paste(group_name,"/",file_name,sep=""))
 # Calculate the significance of variance to compare multivariate sample means (including two or more dependent variables)
 # Omit cases where there isn't data for the sample (NA)
 all_groups_comp <- all_groups[!is.na(all_groups)]
-unifract_dist_comp <- unifract_dist[, !is.na(all_groups)]
+unifract_dist_comp <- unifract_dist[!is.na(all_groups), !is.na(all_groups)]
 adonis<-adonis(as.dist(unifract_dist_comp) ~ all_groups_comp)
 all_groups_comp<-factor(all_groups_comp,levels(all_groups_comp)[unique(all_groups_comp)])
 
